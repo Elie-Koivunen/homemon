@@ -127,5 +127,7 @@ services:
 =======================================
 sed -i 's/\t/    /g' docker-compose.yml
 chown -R $(whoami):$(whoami) /opt/stacks/stack-grafana
+docker-compose down;docker-compose up -d
+docker ps -as
 
 
