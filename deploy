@@ -13,7 +13,8 @@
     usermod -aG docker foreman
     apt-get install -y python3-pip docker-compose
 
-  # install pihole as a container
+####################################################################################################
+# install pihole as a container
     mkdir -p /opt/stacks/pihole
     cd /opt/stacks/pihole
     vi docker-compose.yml
@@ -44,5 +45,21 @@ services:
     mkdir -p ./etc-pihole ./etc-dnsmasq.d
     docker-compose down;docker-compose up -d
     docker ps -as
+####################################################################################################
+# install portainer to manage docker
+mkdir -p /opt/stacks/portainer/data
+cd /opt/stacks/portainer
 
+# optional: sudo chown -R $(whoami):$(whoami) /opt/stacks/portainer
+
+# deploy and run
+docker run -d \
+  -p 8000:8000 \
+  -p 9443:9443 \
+  --name portainer \
+  --restart=always \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /opt/stacks/portainer/data:/data \
+  portainer/portainer-ce:latest
+####################################################################################################
 
