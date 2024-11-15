@@ -94,9 +94,6 @@ services:
       INFLUXDB_USER_PASSWORD: admtelegraf
     volumes:
       - /opt/stacks/stack-grafana/influxdb/influxdb-data:/var/lib/influxdb
-    links:
-      - grafana
-      - telegraf
 
   telegraf:
     image: telegraf:latest
@@ -113,9 +110,6 @@ services:
       - /sys:/host/sys:ro
       - /etc:/host/etc:ro
       - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
-    links:
-      - influxdb
-      - grafana
 
   grafana:
     image: grafana/grafana:latest
@@ -127,12 +121,11 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: admingrafana
     volumes:
       - /opt/stacks/stack-grafana/grafana/grafana-data:/var/lib/grafana
-    links:
+    depends_on:
       - influxdb
-      - telegraf
 
 =======================================
 sed -i 's/\t/    /g' docker-compose.yml
-
+chown -R $(whoami):$(whoami) /opt/stacks/stack-grafana
 
 
