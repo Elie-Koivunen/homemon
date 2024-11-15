@@ -1,4 +1,5 @@
   # setup RPI
+    apt update
 
   # reconfigure ssh
     echo UseDNS no >> /etc/ssh/sshd_config
@@ -8,5 +9,39 @@
   # install docker
     curl -fsSL https://get.docker.com -o get-docker.sh
     sh get-docker.sh
+    usermod -aG docker $(whoami)
+    usermod -aG docker foreman
+    apt-get install -y python3-pip docker-compose
 
-  
+  # install pihole as a container
+    mkdir -p /opt/stacks/pihole
+    cd /opt/stacks/pihole
+    vi docker-compose.yml
+=======================================
+# docker-compose.yml
+=======================================
+      version: "3"
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    network_mode: "host"
+    environment:
+      TZ: "Europe/Helsinki"  # Change to your timezone
+      WEBPASSWORD: "a"  # Set the Pi-hole web admin password
+    volumes:
+      - "./etc-pihole:/etc/pihole"
+      - "./etc-dnsmasq.d:/etc/dnsmasq.d"
+    dns:
+      - 127.0.0.1
+      - 192.168.1.1
+    restart: unless-stopped
+
+=======================================
+
+    mkdir -p ./etc-pihole ./etc-dnsmasq.d
+    docker-compose up -d
+    docker ps -as
+
+
