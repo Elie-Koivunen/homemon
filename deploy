@@ -1,6 +1,11 @@
   # setup RPI
     apt update
 
+  # fanhat drivers
+  mkdir -p /opt/rpi-fanhat
+  cd /opt/rpi-fanhat
+  curl https://download.argon40.com/argonfanhat.sh > argonfanhat.sh
+  bash argonfanhat.sh
   # reconfigure ssh
     echo UseDNS no >> /etc/ssh/sshd_config
     echo PermitRootLogin yes >> /etc/ssh/sshd_config
