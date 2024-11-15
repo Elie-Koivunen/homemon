@@ -42,7 +42,7 @@ services:
 =======================================
     sed -i 's/\t/    /g' docker-compose.yml
     mkdir -p ./etc-pihole ./etc-dnsmasq.d
-    docker-compose up -d
+    docker-compose down;docker-compose up -d
     docker ps -as
 
 
