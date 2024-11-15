@@ -1,0 +1,12 @@
+  # setup RPI
+
+  # reconfigure ssh
+    echo UseDNS no >> /etc/ssh/sshd_config
+    echo PermitRootLogin yes >> /etc/ssh/sshd_config
+    service sshd restart
+
+  # install docker
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sh get-docker.sh
+
+  
