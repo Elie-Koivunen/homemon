@@ -30,6 +30,7 @@ services:
     environment:
       TZ: "Europe/Helsinki"  # Change to your timezone
       WEBPASSWORD: "a"  # Set the Pi-hole web admin password
+      PIHOLE_INTERFACE: "wlan0"
     volumes:
       - "./etc-pihole:/etc/pihole"
       - "./etc-dnsmasq.d:/etc/dnsmasq.d"
@@ -39,7 +40,7 @@ services:
     restart: unless-stopped
 
 =======================================
-
+    sed -i 's/\t/    /g' docker-compose.yml
     mkdir -p ./etc-pihole ./etc-dnsmasq.d
     docker-compose up -d
     docker ps -as
